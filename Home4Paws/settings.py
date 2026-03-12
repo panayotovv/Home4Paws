@@ -2,6 +2,7 @@ from django.utils.translation import gettext_lazy as _
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import sys
 
 load_dotenv()
 
@@ -66,6 +67,14 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+
+if "test" in sys.argv:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": ":memory:",
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
