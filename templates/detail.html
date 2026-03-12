@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main>
+
+<section class="dog-detail reveal">
+
+    <div class="dog-image">
+        <img src="{{ dog.image.url }}" alt="Buddy">
+    </div>
+
+    <div class="dog-info">
+
+        <h1>{{ dog.name }}</h1>
+        <p class="breed">{{ dog.breed }}</p>
+
+        <div class="dog-tags">
+            {% for trait in dog.traits.all %}
+                <span>{{ trait }}</span>
+            {% endfor %}
+
+
+        </div>
+
+        <div class="dog-meta">
+            <p><strong>Age:</strong> {{ dog.age }} years</p>
+            <p><strong>Gender:</strong> {{ dog.gender }}</p>
+            <p><strong>Vaccinated:</strong> {{ vaccinated_text }}</p>
+            <p><strong>Location:</strong> {{ dog.location }}</p>
+        </div>
+
+        {% if dog.owner != request.user  %}
+            <button class="adopt-btn">Adopt {{ dog.name }}</button>
+        {% else %}
+            <button class="adopted-btn">Adopted</button>
+        {% endif %}
+
+        <section class="dog-health reveal">
+
+            <h2>Health & Care</h2>
+
+            <div class="health-grid">
+                {% for status in dog.health_status.all %}
+                    <div>✔ {{ status }}</div>
+                {% endfor %}
+            </div>
+
+        </section>
+
+    </div>
+
+</section>
+
+
+<section class="dog-description-section reveal">
+    <h2>About {{ dog.name }}</h2>
+
+    <p>
+        {{ dog.description }}
+    </p>
+</section>
+</main>
+
+<div class="adopt-modal">
+    <div class="adopt-box">
+
+        <button class="close-profile">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <h2>Dog Adoption Application</h2>
+         <form method="post">
+            {% csrf_token %}
+            {{ adoption_form.residence }}
+            <div class="same-line">
+                {{ adoption_form.number_people }}
+                {{ adoption_form.children }}
+            </div>
+            {{ adoption_form.dog_stay_day }}
+            {{ adoption_form.dog_sleep_night }}
+            {{ adoption_form.dog_exercise }}
+            {{ adoption_form.have_owned_dog }}
+            {{ adoption_form.if_yes }}
+            {{ adoption_form.have_you_ever }}
+
+            <button class="login-btn">Submit</button>
+        </form>
+    </div>
+</div>
+<div class="adopt-succes-modal" id="successModal">
+    <div class="adopt-success-box">
+        <button class="close-profile">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="success-icon-wrapper">
+            <img src="{% static 'images/Sign-check-icon.png' %}" alt="sign-check">
+        </div>
+        <div class="success-text">
+            <h2>Application Submitted!</h2>
+            <p>Your adoption application for <strong>{{ dog.name }}</strong> has been submitted successfully. We will get back to you soon!</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        {% if show_success %}
+            document.getElementById("successModal").classList.add("active");
+            history.replaceState(null, "", window.location.pathname);
+        {% endif %}
+    });
+</script>
+{% endblock %}

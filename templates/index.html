@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+    <div class="hero reveal">
+        <h1>Every Pet Deserves a Loving Home.</h1>
+        <h1>Adopt a Pet Today</h1>
+
+        <span>
+            Browse our available animals and learn more about the adoption process.
+            Together, we can rescue, rehabilitate, and rehome pets in need.
+            Thank you for supporting our mission to bring joy to families through pet adoption.
+        </span>
+
+        <div class="search-bar">
+            <input class="pet-search" type="text" placeholder="Search for pets...">
+        </div>
+    </div>
+
+    <div class="animals">
+        {% for dog in dog_list %}
+            <a href="{% url 'detail' dog.name %}">
+                <div class="animal-card reveal">
+                    <img src="{{ dog.image.url }}" alt="Dog">
+                    <h3 style="display: none">{{ dog.breed }}</h3>
+                    <h3>{{ dog.name }}</h3>
+                    <p>{{ dog.description|truncatewords:20 }}</p>
+                </div>
+            </a>
+        {% endfor %}
+
+    </div>
+
+</main>
+{% endblock %}
+

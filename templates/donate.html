@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donate - Home4Paws</title>
+
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body class="donate-page">
+
+<div class="donate-modal">
+    <div class="donate-box">
+
+        <a href="{% url 'index' %}" class="close-info">
+            <i class="fa-solid fa-xmark"></i>
+        </a>
+
+        <h2>Donate</h2>
+
+        <div class="donate-amounts">
+            <button class="amount-btn" data-amount="5">$5</button>
+            <button class="amount-btn" data-amount="10">$10</button>
+            <button class="amount-btn" data-amount="25">$25</button>
+        </div>
+
+        <input id="custom-amount" type="number" placeholder="Custom amount">
+        <input id="card-name" type="text" placeholder="Name on Card">
+
+        <div id="card-element"></div>
+        <div id="card-errors"></div>
+
+        <button id="donate-btn" class="login-btn">Donate</button>
+
+    </div>
+</div>
+<div id="donationSuccess" class="success-modal">
+    <div class="success-box">
+        <h3>Thank you for your donation ❤️</h3>
+        <p>Your support helps dogs find loving homes.</p>
+        <p>Redirecting to home...</p>
+    </div>
+</div>
+<script>
+const STRIPE_PUBLIC_KEY = "{{ stripe_public_key }}";
+</script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

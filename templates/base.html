@@ -1,0 +1,248 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Adopt pets and give them loving homes through Home4Paws.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
+    <title>Home4Paws</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<header class="top-bar">
+    {% if not request.user.is_authenticated %}
+        <div class="buttons">
+            <button class="sign-in-btn">Sign in</button>
+            <button class="sign-up-btn">Sign up</button>
+        </div>
+    {% endif %}
+    <div class="ceo">
+        <a href="{% url 'profile' 1 %}">
+            misho
+        </a>
+    </div>
+    <div>
+        Current user: {{ request.user.full_name }}
+    </div>
+    <div class="lang-switcher">
+        <button type="button" class="lang-btn" id="langToggle">
+            🌐 <span id="currentLang">EN</span>
+        </button>
+        <div class="lang-menu" id="langMenu">
+            <button data-lang="en">🇬🇧 English</button>
+            <button data-lang="bg">🇧🇬 Bulgarian</button>
+            <button data-lang="de">🇩🇪 German</button>
+            <button data-lang="ru">🇷🇺 Russian</button>
+        </div>
+    </div>
+</header>
+
+<button class="menu-toggle">
+    <i class="fa-solid fa-bars"></i>
+</button>
+
+<nav>
+    <div class="logo-container">
+        <i class="fa-solid fa-paw"></i>
+        <span>Home4Paws</span>
+    </div>
+    <ul>
+        {% if request.user.is_authenticated %}
+            <li><a href="{% url 'profile' request.user.pk %}">Profile</a></li>
+        {% endif %}
+        <li><a href="{% url 'index' %}" class="home-link">Home</a></li>
+        <li><a href="#" class="about-link">About us</a></li>
+        <li><a href="{% url 'donate' %}" class="donate-link">Donate</a></li>
+        <li><a href="#" class="events-link">Events</a></li>
+        <li><a href="#" class="contact-link">Contact us</a></li>
+        {% if request.user.is_authenticated %}
+        <li>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button class="logout-btn" type="submit">Logout</button>
+            </form>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% block content %}
+{% endblock %}
+
+<div class="auth-modal">
+    <div class="auth-box">
+        <div class="sign-in-form">
+            <button type="button" class="close-info">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <form method="post">
+                {% csrf_token %}
+                <h2>Sign In</h2>
+
+                {% for error in login_form.non_field_errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+
+                {{ login_form.username }}
+                {% for error in login_form.username.errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+
+                {{ login_form.password }}
+                {% for error in login_form.password.errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+
+                <button class="login-btn" name="login">Sign In</button>
+                <p class="switch-text">
+                    Don't have an account?
+                    <span class="switch-to-signup">Sign Up</span>
+                </p>
+            </form>
+        </div>
+
+        <div class="sign-up-form">
+            <button type="button" class="close-info">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <h2>Sign up</h2>
+                {{ signup_form.full_name }}
+                {% for error in signup_form.full_name.errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+                {{ signup_form.email }}
+                {% for error in signup_form.email.errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+                {{ signup_form.password1 }}
+                {% for error in signup_form.password1.errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+                {{ signup_form.password2 }}
+                {% for error in signup_form.password2.errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+                {{ signup_form.location }}
+                {% for error in signup_form.location.errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+                <p class="roles-hint">Hold Ctrl (Cmd on Mac) to select multiple roles</p>
+                <div class="roles-container">
+                    {{ signup_form.roles }}
+                </div>
+                {% for error in signup_form.roles.errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+                <button class="login-btn" name="signup">Sign Up</button>
+                <p class="switch-text">
+                    Already have an account?
+                    <span class="switch-to-signin">Sign In</span>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="info-modal">
+    <div class="info-box">
+        <button class="close-info">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h2 class="info-title"></h2>
+        <i class="fa-solid fa-paw modal-paw"></i>
+        <p class="info-content"></p>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <i class="fa-solid fa-paw"></i>
+            <h3>Home4Paws</h3>
+            <p>Helping pets find loving homes and families find loyal companions.</p>
+        </div>
+        <div class="footer-links">
+            <h4>Quick Links</h4>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'profile' request.user.pk %}">Profile</a>
+            {% endif %}
+            <a href="{% url 'index' %}" class="home-link">Home</a>
+            <a href="#" class="about-link">About us</a>
+            <a href="{% url 'donate' %}" class="donate-link">Donate</a>
+            <a href="#" class="events-link">Events</a>
+            <a href="#" class="contact-link">Contact us</a>
+        </div>
+        <div class="footer-contact">
+            <h4>Contact</h4>
+            <p>Email: support@home4paws.org</p>
+            <p>Phone: +1 555 123 456</p>
+            <div class="socials">
+                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-x-twitter"></i>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        © 2026 Home4Paws — All rights reserved
+    </div>
+</footer>
+
+<div id="google_translate_element" style="display:none;"></div>
+
+<script src="{% static 'js/script.js' %}" defer></script>
+
+
+<script>
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,bg,de,ru',
+        autoDisplay: false
+    }, 'google_translate_element');
+}
+
+window.addEventListener('load', function() {
+    const observer = new MutationObserver(function() {
+        const banner = document.querySelector('.goog-te-banner-frame');
+        if (banner) {
+            banner.style.display = 'none';
+            document.body.style.top = '0';
+        }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+});
+
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+{% if show_login %}
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('.auth-modal').classList.add('active');
+        document.querySelector('.sign-in-form').classList.add('active-form');
+        document.querySelector('.sign-up-form').classList.remove('active-form');
+        document.body.classList.add('modal-open');
+    });
+</script>
+{% endif %}
+{% if show_signup %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('.auth-modal').classList.add('active');
+        document.querySelector('.sign-up-form').classList.add('active-form');
+        document.querySelector('.sign-in-form').classList.remove('active-form');
+        document.body.classList.add('modal-open');
+    });
+</script>
+{% endif %}
+</body>
+</html>

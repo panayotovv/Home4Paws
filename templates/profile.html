@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main>
+
+    <section class="profile-dashboard">
+
+    <div class="profile-header reveal">
+        <form method="POST" enctype="multipart/form-data" id="avatarForm">
+            {% csrf_token %}
+            {% if request.user.pk == user.pk %}
+                <label for="id_image">
+                    <div class="image-wrapper is_user">
+                        <img src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}"
+                        class="profile-avatar"
+                        style="cursor:pointer;"
+                        title="Click to change profile picture">
+                        <span class="image-hover-text">📷 Change photo</span>
+                    </div>
+                </label>
+            {% else %}
+                    <div class="image-wrapper">
+                        <img src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}"
+                        class="profile-avatar"
+                        style="cursor:pointer;">
+                    </div>
+            {% endif %}
+
+            {{ image_form.image }}
+            {{ image_form.error }}
+        </form>
+
+        <div class="profile-main-info">
+            <h1>{{ user.full_name }}</h1>
+            <p class="profile-role">
+                {% for role in user_roles %}
+                    {{ role }}{% if not forloop.last %} • {% endif %}
+                {% endfor %}
+            </p>
+
+
+            <div class="profile-stats">
+                <div>
+                    <span class="dog-count">{{ dogs.count }}</span>
+                    <p>Adopted</p>
+                </div>
+
+                <div>
+                    <span>{{ user.location }}</span>
+                    <p>Location</p>
+                </div>
+
+                <div>
+                    <span>{{ user.date_joined|date:"Y" }}</span>
+                    <p>Member</p>
+                </div>
+            </div>
+            {% if requst.user.pk == user.pk %}
+                <button class="edit-profile-btn">Edit Profile</button>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <section class="adopted-section reveal">
+        <h2>Adopted Pets</h2>
+
+        <div class="animals reveal">
+            {% for dog in dogs %}
+                <a href="{% url 'detail' dog.name  %}">
+                    <div class="animal-card">
+                        <img src="{{ dog.image.url }}">
+                        <h3>{{ dog.name }}</h3>
+                        <p>{{ dog.breed }}• Adopted 2025</p>
+                    </div>
+                </a>
+            {% empty %}
+                <p class="no-pets">You haven't adopted any pets yet 🐶</p>
+            {% endfor %}
+
+        </div>
+    </section>
+
+</section>
+
+</main>
+
+<div class="profile-modal">
+    <div class="profile-modal-box">
+        <form method="POST">
+            {% csrf_token %}
+            <button type="button" class="close-profile">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h2>Edit Profile</h2>
+
+            {{ edit_form.full_name }}
+            {% if edit_form.full_name.errors %}
+                <p class="form-error">{{ edit_form.full_name.errors.as_text }}</p>
+            {% endif %}
+
+            {{ edit_form.email }}
+            {% if edit_form.email.errors %}
+                <p class="form-error">{{ edit_form.email.errors.as_text }}</p>
+            {% endif %}
+
+            {{ edit_form.location }}
+            {% if edit_form.location.errors %}
+                <p class="form-error">{{ edit_form.location.errors.as_text }}</p>
+            {% endif %}
+
+            <p class="roles-hint">Hold Ctrl (Cmd on Mac) to select multiple roles</p>
+            <div class="roles-container">
+                {{ edit_form.roles }}
+                {% if edit_form.roles.errors %}
+                    <p class="form-error">{{ edit_form.roles.errors.as_text }}</p>
+                {% endif %}
+            </div>
+
+            {% if edit_form.non_field_errors %}
+                <p class="form-error">{{ edit_form.non_field_errors.as_text }}</p>
+            {% endif %}
+
+            <button type="submit" class="login-btn">Save Changes</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
