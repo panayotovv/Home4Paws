@@ -3,6 +3,8 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
+load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-x%&l(usu*il$0rudda!5u6)3)#=5#pj$pa3tx7vq-s(64or7l)'
