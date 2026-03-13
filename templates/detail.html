@@ -43,7 +43,7 @@
             {% if request.user.is_authenticated %}
                 <button class="adopt-btn">Adopt {{ dog.name }}</button>
             {% else %}
-                <button type="button" class="adopt-btn" id="adoptBtn">Adopt Dog</button>
+                <button type="button" class="adopt-btn" id="adoptBtn">Adopt {{ dog.name }}</button>
             {% endif %}
         {% endif %}
 

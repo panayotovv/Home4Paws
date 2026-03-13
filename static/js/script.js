@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add("show");
             });
-        }, { threshold: 0.2 });
+        }, { threshold: 0.1 });
 
         document.querySelectorAll(".reveal").forEach(el => {
             el.classList.remove("show");
@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
         signInForm?.classList.toggle("active-form", showSignIn);
         signUpForm?.classList.toggle("active-form", !showSignIn);
     }
+
 
     document.querySelector(".sign-in-btn")?.addEventListener("click", () => toggleAuthModal(true));
     document.querySelector(".sign-up-btn")?.addEventListener("click", () => toggleAuthModal(false));

@@ -1,7 +1,5 @@
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, ListView
 from django.shortcuts import redirect, render
 from User.forms import SignUpForm, LoginForm, AdoptionForm
@@ -69,12 +67,14 @@ def login_view(request):
 
         if form.is_valid():
             login(request, form.get_user())
-            next_url = request.POST.get('next', '/')
-            return redirect(next_url)
+            return redirect('profile', pk=request.user.pk)
 
         messages.error(request, "Invalid username or password", extra_tags="login")
 
-    return redirect(request.META.get("HTTP_REFERER", "/") + "?login_error=1")
+        next_url = request.POST.get("next", "/")
+        return redirect(f"{next_url}?login_error=1")
+
+    return redirect("/")
 
 
 def signup_view(request):
@@ -86,11 +86,12 @@ def signup_view(request):
             user.save()
             form.save_m2m()
             login(request, user)
-            return redirect("index")
+            return redirect('profile', pk=request.user.pk)
 
-        messages.error(request, "Signup failed. Please check the form.", extra_tags="signup")
+        return render(request, "index.html", {"signup_form": form, "show_signup_modal": True})
 
-    return redirect(request.META.get("HTTP_REFERER", "index") + "?signup_error=1")
+    return redirect(request.META.get("HTTP_REFERER", "/") + "?signup_error=1")
+
 
 def donate_view(request):
     return render(request, "donate.html", {

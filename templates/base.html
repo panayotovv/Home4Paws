@@ -15,6 +15,7 @@
 <body>
 
 <header class="top-bar">
+
     {% if not request.user.is_authenticated %}
         <div class="buttons">
             <button class="sign-in-btn">Sign in</button>
@@ -109,7 +110,7 @@
             <button type="button" class="close-info">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            <form method="post" action= {% url 'signup' %}enctype="multipart/form-data">
+            <form method="post" action={% url "signup" %}>
                 {% csrf_token %}
 
                 <h2>Sign up</h2>
@@ -243,7 +244,7 @@ window.addEventListener('load', function() {
   {% endfor %}
 {% endif %}
 
-{% if request.GET.signup_error %}
+{% if show_signup_modal %}
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const modal = document.querySelector(".auth-modal");
@@ -256,5 +257,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 {% endif %}
+
 </body>
 </html>
