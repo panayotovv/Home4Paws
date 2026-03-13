@@ -21,14 +21,6 @@
             <button class="sign-up-btn">Sign up</button>
         </div>
     {% endif %}
-    <div class="ceo">
-        <a href="{% url 'profile' 1 %}">
-            misho
-        </a>
-    </div>
-    <div>
-        Current user: {{ request.user.full_name }}
-    </div>
     <div class="lang-switcher">
         <button type="button" class="lang-btn" id="langToggle">
             🌐 <span id="currentLang">EN</span>
@@ -80,10 +72,17 @@
             <button type="button" class="close-info">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            <form method="post">
+            <form method="post" action="{% url 'signin' %}">
                 {% csrf_token %}
                 <h2>Sign In</h2>
-
+                <input type="hidden" name="next" value="{{ request.path }}">
+                {% if messages %}
+                  {% for message in messages %}
+                    {% if "login" in message.tags %}
+                       <p class="error">{{ message }}</p>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
                 {% for error in login_form.non_field_errors %}
                     <p class="form-error">{{ error }}</p>
                 {% endfor %}
@@ -110,10 +109,17 @@
             <button type="button" class="close-info">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" action= {% url 'signup' %}enctype="multipart/form-data">
                 {% csrf_token %}
 
                 <h2>Sign up</h2>
+                {% if messages %}
+                  {% for message in messages %}
+                    {% if "signup" in message.tags %}
+                       <p class="error">{{ message }}</p>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
                 {{ signup_form.full_name }}
                 {% for error in signup_form.full_name.errors %}
                     <p class="form-error">{{ error }}</p>
@@ -224,24 +230,30 @@ window.addEventListener('load', function() {
 </script>
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-{% if show_login %}
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelector('.auth-modal').classList.add('active');
-        document.querySelector('.sign-in-form').classList.add('active-form');
-        document.querySelector('.sign-up-form').classList.remove('active-form');
-        document.body.classList.add('modal-open');
-    });
-</script>
+{% if messages %}
+  {% for message in messages %}
+    {% if "login" in message.tags %}
+        <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            document.querySelector(".auth-modal").classList.add("active");
+            document.querySelector(".sign-in-form").classList.add("active-form");
+        });
+        </script>
+    {% endif %}
+  {% endfor %}
 {% endif %}
-{% if show_signup %}
+
+{% if request.GET.signup_error %}
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelector('.auth-modal').classList.add('active');
-        document.querySelector('.sign-up-form').classList.add('active-form');
-        document.querySelector('.sign-in-form').classList.remove('active-form');
-        document.body.classList.add('modal-open');
-    });
+document.addEventListener("DOMContentLoaded", function() {
+    const modal = document.querySelector(".auth-modal");
+    const signUp = document.querySelector(".sign-up-form");
+
+    if(modal && signUp){
+        modal.classList.add("active");
+        signUp.classList.add("active-form");
+    }
+});
 </script>
 {% endif %}
 </body>

@@ -1,11 +1,12 @@
 from django.conf import settings
-from django.template.context_processors import request
-from django.views.generic import DetailView, TemplateView
-from django.views.generic import ListView
-from django.contrib.auth import login
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views.generic import DetailView, ListView
 from django.shortcuts import redirect, render
 from User.forms import SignUpForm, LoginForm, AdoptionForm
 from .models import Dog, Adoption
+from django.contrib.auth import login
 
 
 class IndexView(ListView):
@@ -23,38 +24,7 @@ class IndexView(ListView):
 
         return context
 
-    def post(self, request, *args, **kwargs):
-        self.object_list = self.get_queryset()
 
-        if "login" in request.POST:
-            login_form = LoginForm(request, data=request.POST)
-
-            if login_form.is_valid():
-                user = login_form.get_user()
-                login(request, user)
-                return redirect("index")
-
-            context = self.get_context_data()
-            context["login_form"] = login_form
-            context["show_login"] = True
-            return self.render_to_response(context)
-
-        elif "signup" in request.POST:
-            signup_form = SignUpForm(request.POST, request.FILES)
-
-            if signup_form.is_valid():
-                user = signup_form.save(commit=False)
-                user.save()
-                signup_form.save_m2m()
-                login(request, user)
-                return redirect("index")
-
-            context = self.get_context_data()
-            context["signup_form"] = signup_form
-            context["show_signup"] = True
-            return self.render_to_response(context)
-
-        return redirect("index")
 
 class DogDetailView(DetailView):
     template_name = 'detail.html'
@@ -72,6 +42,9 @@ class DogDetailView(DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(request.META.get('HTTP_REFERER', '/') + '?login_required=1')
+
         self.object = self.get_object()
         adoption_form = AdoptionForm(request.POST)
 
@@ -85,11 +58,39 @@ class DogDetailView(DetailView):
             dog.owner = request.user
             dog.save()
             return redirect(f"/dog/{dog.name}/?success=true")
+
         else:
             context = self.get_context_data(adoption_form=adoption_form, show_success=True)
             return self.render_to_response(context)
 
+def login_view(request):
+    if request.method == "POST":
+        form = LoginForm(request, data=request.POST)
 
+        if form.is_valid():
+            login(request, form.get_user())
+            next_url = request.POST.get('next', '/')
+            return redirect(next_url)
+
+        messages.error(request, "Invalid username or password", extra_tags="login")
+
+    return redirect(request.META.get("HTTP_REFERER", "/") + "?login_error=1")
+
+
+def signup_view(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            form.save_m2m()
+            login(request, user)
+            return redirect("index")
+
+        messages.error(request, "Signup failed. Please check the form.", extra_tags="signup")
+
+    return redirect(request.META.get("HTTP_REFERER", "index") + "?signup_error=1")
 
 def donate_view(request):
     return render(request, "donate.html", {

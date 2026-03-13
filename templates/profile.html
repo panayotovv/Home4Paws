@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<main>
+<main class="page-profile">
 
     <section class="profile-dashboard">
 
@@ -55,7 +55,7 @@
                     <p>Member</p>
                 </div>
             </div>
-            {% if requst.user.pk == user.pk %}
+            {% if request.user.pk == user.pk %}
                 <button class="edit-profile-btn">Edit Profile</button>
             {% endif %}
         </div>
@@ -71,11 +71,15 @@
                     <div class="animal-card">
                         <img src="{{ dog.image.url }}">
                         <h3>{{ dog.name }}</h3>
-                        <p>{{ dog.breed }}• Adopted 2025</p>
+                        <p>{{ dog.breed }}</p>
                     </div>
                 </a>
             {% empty %}
-                <p class="no-pets">You haven't adopted any pets yet 🐶</p>
+                {% if request.user == user %}
+                    <p class="no-pets">You haven't adopted any pets yet 🐶</p>
+                {% else %}
+                    <p class="no-pets">{{ user.full_name }} haven't adopted any pets yet 🐶</p>
+                {% endif %}
             {% endfor %}
 
         </div>

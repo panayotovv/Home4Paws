@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<main>
+<main class="page-detail">
 
 <section class="dog-detail reveal">
 
@@ -27,12 +27,24 @@
             <p><strong>Gender:</strong> {{ dog.gender }}</p>
             <p><strong>Vaccinated:</strong> {{ vaccinated_text }}</p>
             <p><strong>Location:</strong> {{ dog.location }}</p>
+            {% if dog.owner  %}
+                <p><strong>Owner:</strong>
+                    <a href="{% url 'profile' dog.owner.pk %}">
+                        {{ dog.owner.full_name }}
+                    </a>
+                </p>
+
+            {% endif %}
         </div>
 
-        {% if dog.owner != request.user  %}
-            <button class="adopt-btn">Adopt {{ dog.name }}</button>
-        {% else %}
+        {% if dog.owner %}
             <button class="adopted-btn">Adopted</button>
+        {% else %}
+            {% if request.user.is_authenticated %}
+                <button class="adopt-btn">Adopt {{ dog.name }}</button>
+            {% else %}
+                <button type="button" class="adopt-btn" id="adoptBtn">Adopt Dog</button>
+            {% endif %}
         {% endif %}
 
         <section class="dog-health reveal">
@@ -110,4 +122,6 @@
         {% endif %}
     });
 </script>
+
+
 {% endblock %}

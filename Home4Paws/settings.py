@@ -110,6 +110,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+LOGIN_URL = '/'
+
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [

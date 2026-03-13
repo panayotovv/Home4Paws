@@ -57,6 +57,7 @@ nav {
     padding-top: 2rem;
     box-shadow: 3px 0 10px rgba(0,0,0,0.05);
     transition: left .3s ease;
+    z-index: 100;
 }
 
 nav.active {
@@ -247,9 +248,13 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+}
+
+.page-detail,
+.page-index {
     margin-top: 5rem;
 }
+
 
 .hero {
     max-width: 700px;
@@ -792,10 +797,12 @@ input:invalid:focus,
     width: 100%;
     max-width: 1100px;
     margin: auto;
-    padding: 3rem 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding-top: 4rem;
 }
 
 .profile-dashboard .animals {
@@ -806,14 +813,16 @@ input:invalid:focus,
 }
 
 .profile-header {
+    position: relative;
+    margin-bottom: 3rem;
+    width: 100%;
+    max-width: 800px;
     display: flex;
     gap: 2rem;
     align-items: flex-start;
     flex-wrap: wrap;
-    margin-bottom: 3rem;
-    width: 100%;
-    max-width: 800px;
     justify-content: center;
+    flex-shrink: 0;
 }
 
 .profile-avatar {
@@ -882,7 +891,6 @@ input:invalid:focus,
 
 .adopted-section,
 .saved-section {
-    margin-top: 3rem;
     width: 100%;
     max-width: 800px;
 }
@@ -1129,5 +1137,9 @@ input:invalid:focus,
     border-radius: 10px;
     text-align: center;
 }
+
+
+
+
 
 

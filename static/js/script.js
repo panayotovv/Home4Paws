@@ -255,5 +255,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
     }
+    const adoptBtnn = document.getElementById('adoptBtn')
+    if (adoptBtnn) {
+        adoptBtnn.addEventListener('click', () => {
+            document.querySelector(".auth-modal").classList.add("active");
+            document.querySelector(".sign-in-form").classList.add("active-form");
+        })
+    }
 
 });

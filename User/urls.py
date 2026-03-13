@@ -2,12 +2,12 @@ from django.contrib.auth.views import LogoutView
 from django.urls import path, reverse_lazy
 
 import User
-from Dog.views import IndexView
+from Dog.views import login_view, signup_view
 from User.views import ProfileView
 
 urlpatterns = [
-    path('signup/', IndexView.as_view(), name='signup'),
-    path('signin/', IndexView.as_view(), name='signin'),
+    path('signup/', signup_view, name='signup'),
+    path('signin/', login_view, name='signin'),
     path('profile/<int:pk>', ProfileView.as_view(), name='profile'),
     path(
         "logout/",
