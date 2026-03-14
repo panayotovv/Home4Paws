@@ -25,7 +25,6 @@ Test payments enabled via Stripe for donations. Use the following test card deta
 ### 🐶 Dog Listings
 Browse and search dogs available for adoption.
 
-
 ## 📖 Usage
 
 1. **Sign up or log in** to start adopting.
@@ -33,18 +32,11 @@ Browse and search dogs available for adoption.
 3. **Switch languages** seamlessly from the UI.
 4. **Test Stripe payments** using the test card listed above.
 
----
-
-## 🤝 Contributing
-
-Contributions are welcome!
-
-1. Fork the repository
-2. Create a new branch: `git checkout -b feature-name`
-3. Make your changes
-4. Submit a pull request
-
----
+![App Screenshot](screenshots/index.png)
+![App Screenshot](screenshots/sign-up.png)
+![App Screenshot](screenshots/profile.png)
+![App Screenshot](screenshots/dog-detail.png)
+![App Screenshot](screenshots/donate.png)
 
 ## 📄 License
 
