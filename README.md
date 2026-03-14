@@ -25,38 +25,6 @@ Test payments enabled via Stripe for donations. Use the following test card deta
 ### 🐶 Dog Listings
 Browse and search dogs available for adoption.
 
----
-
-## 🚀 Installation
-
-**1. Clone the repository:**
-```bash
-git clone https://github.com/panayotovv/Home4Paws.git
-cd Home4Paws
-```
-
-**2. Install dependencies:**
-```bash
-pip install -r requirements.txt
-```
-
-**3. Set up environment variables:**
-```env
-STRIPE_PUBLIC_KEY=your_stripe_public_key
-STRIPE_SECRET_KEY=your_stripe_secret_key
-DB_NAME=yourdbname
-DB_USER=yourusername
-DB_PASSWORD=yourpassword
-```
-
-**4. Run the app:**
-```bash
-python manage.py runserver
-```
-
-**5.** Access the platform at `http://127.0.0.1:8000`
-
----
 
 ## 📖 Usage
 
