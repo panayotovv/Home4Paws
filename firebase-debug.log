@@ -1,0 +1,41 @@
+[debug] [2026-03-13T23:51:47.815Z] ----------------------------------------------------------------------
+[debug] [2026-03-13T23:51:47.821Z] Command:       /opt/homebrew/Cellar/node/25.5.0/bin/node /usr/local/bin/firebase init
+[debug] [2026-03-13T23:51:47.821Z] CLI Version:   15.3.1
+[debug] [2026-03-13T23:51:47.821Z] Platform:      darwin
+[debug] [2026-03-13T23:51:47.822Z] Node Version:  v25.5.0
+[debug] [2026-03-13T23:51:47.822Z] Time:          Sat Mar 14 2026 01:51:47 GMT+0200 (Eastern European Standard Time)
+[debug] [2026-03-13T23:51:47.822Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-13T23:51:47.823Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/misho/PyCharmProffesional/Home4Paws
+
+[debug] [2026-03-13T23:51:48.862Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2026-03-13T23:51:48.862Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2026-03-13T23:52:40.976Z] ----------------------------------------------------------------------
+[debug] [2026-03-13T23:52:40.978Z] Command:       /opt/homebrew/Cellar/node/25.5.0/bin/node /opt/homebrew/bin/firebase init
+[debug] [2026-03-13T23:52:40.978Z] CLI Version:   15.10.0
+[debug] [2026-03-13T23:52:40.978Z] Platform:      darwin
+[debug] [2026-03-13T23:52:40.978Z] Node Version:  v25.5.0
+[debug] [2026-03-13T23:52:40.978Z] Time:          Sat Mar 14 2026 01:52:40 GMT+0200 (Eastern European Standard Time)
+[debug] [2026-03-13T23:52:40.978Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/misho/PyCharmProffesional/Home4Paws
+
