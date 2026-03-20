@@ -32,6 +32,8 @@ Browse and search dogs available for adoption.
 3. **Switch languages** seamlessly from the UI.
 4. **Test Stripe payments** using the test card listed above.
 
+## 🖥️ Screenshots
+
 ![App Screenshot](screenshots/index.png)
 ![App Screenshot](screenshots/sign-up.png)
 ![App Screenshot](screenshots/profile.png)
